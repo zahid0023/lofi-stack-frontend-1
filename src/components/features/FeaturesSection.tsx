@@ -83,7 +83,6 @@ export default function FeaturesSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [progress, setProgress] = useState(0);
 
-  // Scroll progress bar
   useEffect(() => {
     const onScroll = () => {
       const el = sectionRef.current;
@@ -91,29 +90,19 @@ export default function FeaturesSection() {
       const { top, height } = el.getBoundingClientRect();
       const vh = window.innerHeight;
       const scrolled = Math.max(0, -top);
-      const total = Math.max(1, height - vh);
-      const pct = Math.min(1, scrolled / total);
-      setProgress(pct);
+      setProgress(Math.min(1, scrolled / Math.max(1, height - vh)));
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Scroll reveal for cards
+  // Scroll-reveal for headline
   useEffect(() => {
     const reveals = sectionRef.current?.querySelectorAll(".lofi-reveal");
     if (!reveals) return;
     const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add("in");
-          } else {
-            e.target.classList.remove("in");
-          }
-        });
-      },
+      (entries) => entries.forEach((e) => e.target.classList.toggle("in", e.isIntersecting)),
       { threshold: 0.12 }
     );
     reveals.forEach((el) => io.observe(el));
@@ -123,167 +112,82 @@ export default function FeaturesSection() {
   return (
     <section
       ref={sectionRef}
-      style={{
-        background: "var(--cream-bg)",
-        color: "var(--cream-ink)",
-        position: "relative",
-      }}
+      className="relative bg-[var(--cream-bg)] text-[var(--cream-ink)]"
     >
-      {/* ── Main ── */}
-      <main className="pt-[140px] pb-[160px]">
-
-        {/* ── Header ── */}
-        <header
-          style={{
-            fontFamily: "var(--font-jetbrains-mono), monospace",
-            fontSize: "13px",
-            letterSpacing: "0.12em",
-            textTransform: "uppercase",
-            color: "var(--cream-accent)",
-            marginBottom: "56px",
-            paddingLeft: "calc(100% / 12)",
-            paddingRight: "calc(100% / 12)",
-            paddingTop: "16px",
-            paddingBottom: "16px",
-            position: "sticky",
-            top: "80px",
-            zIndex: 5,
-            background: "var(--cream-bg)",
-            backdropFilter: "blur(8px)",
-          }}
-        >
-          {/* Label + progress bar */}
+      {/* Sticky progress bar */}
+      <header className="
+        sticky top-[80px] z-20 flex items-center
+        pl-[calc(100%/12)] pr-[calc(100%/12)] py-4
+        bg-[var(--cream-bg)] backdrop-blur-[8px]
+        [font-family:var(--font-jetbrains-mono)] text-[13px] tracking-[0.12em] uppercase text-[var(--cream-accent)]
+      ">
+        <span className="shrink-0">[ 03 - Features ]</span>
+        <div className="flex-1 mx-4 h-[2px] rounded-[2px] bg-[var(--cream-line)] overflow-hidden">
           <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "16px",
-            }}
-          >
-            <span>[ 03 - Features ]</span>
-            <div
-              style={{
-                flex: 1,
-                height: "2px",
-                background: "var(--cream-line)",
-                borderRadius: "2px",
-                overflow: "hidden",
-              }}
-            >
-              <div
-                style={{
-                  height: "100%",
-                  background: "var(--cream-accent)",
-                  width: `${progress * 100}%`,
-                  transition: "width 100ms linear",
-                }}
-              />
-            </div>
-            <span
-              style={{
-                color: "var(--cream-ink-soft)",
-                fontVariantNumeric: "tabular-nums",
-                minWidth: "4ch",
-                textAlign: "right",
-              }}
-            >
-              {Math.round(progress * 100)}%
-            </span>
-          </div>
-        </header>
-
-        {/* ── Body ── */}
-        <div style={{ paddingLeft: "calc(100% / 8)", paddingRight: "calc(100% / 8)" }}>
-
-      {/* Section header */}
-      <header
-        className="lofi-reveal"
-        style={{ marginBottom: "80px" }}
-      >
-        <p
-          style={{
-            fontFamily: "var(--font-jetbrains-mono), monospace",
-            fontSize: "11px",
-            letterSpacing: "0.12em",
-            textTransform: "uppercase",
-            color: "var(--cream-muted)",
-            marginBottom: "32px",
-          }}
-        >
-          What we do
-        </p>
-        <h2
-          style={{
-            fontFamily: "var(--font-space-grotesk), sans-serif",
-            fontWeight: 600,
-            fontSize: "clamp(40px, 5.6vw, 88px)",
-            lineHeight: 1.05,
-            letterSpacing: "-0.03em",
-            color: "var(--cream-ink)",
-            margin: "0 0 24px",
-            maxWidth: "18ch",
-          }}
-        >
-          Innovation,{" "}
-          <em
-            style={{
-              fontFamily: "var(--font-instrument-serif), serif",
-              fontStyle: "italic",
-              fontWeight: 400,
-              color: "var(--cream-accent)",
-            }}
-          >
-            met with precision.
-          </em>
-        </h2>
-        <p
-          style={{
-            fontFamily: "var(--font-space-grotesk), sans-serif",
-            fontSize: "clamp(16px, 1.6vw, 20px)",
-            lineHeight: 1.45,
-            color: "var(--cream-ink-soft)",
-            maxWidth: "52ch",
-            margin: 0,
-          }}
-        >
-          Our expertise lies in seamlessly blending innovation with precision across
-          App Development, CRM, Custom Solutions, VA Support, Integration &amp;
-          Automation, Web Design, Branding, and Digital Marketing — ensuring
-          solutions that propel your business forward.
-        </p>
+            className="h-full bg-[var(--cream-accent)] transition-[width] duration-[100ms] ease-linear"
+            style={{ width: `${progress * 100}%` }}
+          />
+        </div>
+        <span className="tabular-nums min-w-[4ch] text-right text-[var(--cream-ink-soft)]">
+          {Math.round(progress * 100)}%
+        </span>
       </header>
 
-      {/* Cards grid */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
-          gap: "12px",
-        }}
-      >
-        {FEATURES.map((f) => (
-          <FeatureCard key={f.index} {...f} />
-        ))}
+      {/* Two-column layout */}
+      <div className="grid grid-cols-2 gap-[60px] pl-[calc(100%/10)] pr-[calc(100%/10)] pt-[100px]">
 
+        {/* Left — sticky headline */}
+        <div className="sticky top-[140px] self-start h-fit">
+          <header className="lofi-reveal">
+            <p className="[font-family:var(--font-jetbrains-mono)] text-[11px] tracking-[0.12em] uppercase text-[var(--cream-muted)] mb-8">
+              What we do
+            </p>
+            <h2 className="
+              [font-family:var(--font-space-grotesk)] font-semibold
+              text-[clamp(36px,4.8vw,72px)] leading-[1.05] tracking-[-0.03em]
+              text-[var(--cream-ink)] m-0 mb-7
+            ">
+              Innovation,{" "}
+              <em className="[font-family:var(--font-instrument-serif)] italic font-normal text-[var(--cream-accent)]">
+                met with precision.
+              </em>
+            </h2>
+            <p className="
+              [font-family:var(--font-space-grotesk)]
+              text-[clamp(15px,1.4vw,18px)] leading-[1.55]
+              text-[var(--cream-ink-soft)] max-w-[38ch] m-0
+            ">
+              Eight capabilities, one team. We cover every layer a modern business
+              runs on — from the product your users touch to the systems underneath —
+              so nothing falls between the cracks.
+            </p>
+          </header>
+        </div>
+
+        {/* Right — stacking cards */}
+        <div className="relative">
+          {FEATURES.map((f, i) => (
+            <div key={f.index} className="relative h-[100vh]">
+              <div
+                className="sticky top-[140px] h-[480px]"
+                style={{ zIndex: i + 1 }}
+              >
+                <FeatureCard {...f} />
+              </div>
+            </div>
+          ))}
+        </div>
+
+      </div>
+
+      {/* Testimonial */}
+      <div className="pl-[calc(100%/8)] pr-[calc(100%/8)] pt-20 pb-[160px]">
         <TestimonialCard
           quote="Lofistack doesn't just ship deliverables — they understand the full arc, from first impression to lasting system. Across branding, web, automation, and support, everything coheres."
           author="Mara Osei"
           role="Founder, Kindred Studio"
         />
       </div>
-
-      {/* Responsive styles via a style tag */}
-      <style>{`
-        @media (max-width: 1200px) {
-          .features-grid { grid-template-columns: repeat(2, 1fr) !important; }
-        }
-        @media (max-width: 900px) {
-          section[data-section="features"] { padding: 80px 24px 100px !important; }
-        }
-      `}</style>
-
-        </div>{/* end body */}
-      </main>
     </section>
   );
 }

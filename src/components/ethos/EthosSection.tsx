@@ -51,7 +51,10 @@ export default function EthosSection() {
       <main className="pt-[140px] pb-[160px]">
 
         {/* ── Header ── */}
-        <header className="font-[family-name:var(--font-jetbrains-mono)] text-[13px] tracking-[0.12em] uppercase text-[var(--lofi-accent)] mb-14" style={{ paddingLeft: "calc(100% / 12)", paddingRight: "calc(100% / 12)" }}>
+        <header
+          className="sticky top-[80px] z-20 flex items-center py-4 mb-14 bg-[var(--lofi-bg)]/90 backdrop-blur-[8px] font-[family-name:var(--font-jetbrains-mono)] text-[13px] tracking-[0.12em] uppercase text-[var(--lofi-accent)]"
+          style={{ paddingLeft: "calc(100% / 12)", paddingRight: "calc(100% / 12)" }}
+        >
           [ 02 - Ethos ]
         </header>
 
@@ -59,7 +62,7 @@ export default function EthosSection() {
         <div className="flex justify-between items-start gap-40" style={{ paddingLeft: "calc(100% / 8)", paddingRight: "calc(100% / 8)" }}>
 
           {/* Left: sticky */}
-          <div className="sticky top-24 self-start shrink-0 w-[30%]">
+          <div className="sticky top-[148px] self-start shrink-0 w-[30%]">
             <div className="flex flex-col mb-7">
               <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[clamp(28px,3.5vw,52px)] text-[var(--lofi-accent)] mb-1">
                 Since
