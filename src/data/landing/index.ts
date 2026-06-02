@@ -1,0 +1,9 @@
+export { hero } from "./hero";
+export type { EthosParagraph } from "./ethos";
+export { ethosMeta, ethosParagraphs } from "./ethos";
+export type { Feature } from "./features";
+export { features, featuresHeadline } from "./features";
+export type { Logo, Client, Stat } from "./clients";
+export { logos, clients, clientStats, clientsHeadline } from "./clients";
+export type { Moment } from "./gallery";
+export { moments, galleryHeadline } from "./gallery";

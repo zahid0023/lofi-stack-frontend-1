@@ -1,11 +1,11 @@
-export interface BrandCardProps {
+export interface ClientCardProps {
   initials: string;
   name: string;
   industry: string;
   description: string;
 }
 
-export default function BrandCard({ initials, name, industry, description }: BrandCardProps) {
+export default function ClientCard({ initials, name, industry, description }: ClientCardProps) {
   return (
     <article className="
       group flex flex-col overflow-hidden rounded-2xl

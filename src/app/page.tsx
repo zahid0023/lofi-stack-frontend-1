@@ -2,7 +2,8 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/hero/HeroSection";
 import EthosSection from "@/components/ethos/EthosSection";
 import FeaturesSection from "@/components/features/FeaturesSection";
-import BrandsSection from "@/components/brands/BrandsSection";
+import ClientsSection from "@/components/clients/ClientsSection";
+import GallerySection from "@/components/gallery/GallerySection";
 import BottomRail from "@/components/BottomRail";
 
 export default function Home() {
@@ -12,7 +13,8 @@ export default function Home() {
       <HeroSection />
       <EthosSection />
       <FeaturesSection />
-      <BrandsSection />
+      <ClientsSection />
+      <GallerySection />
       <BottomRail />
     </div>
   );

@@ -36,15 +36,17 @@ type Phase =
 function useTypewriter(text: string, speed: number, active: boolean) {
   const [displayed, setDisplayed] = useState("");
   useEffect(() => {
-    if (!active) { setDisplayed(""); return; }
+    if (!active) return;
     let i = 0;
-    setDisplayed("");
     const id = setInterval(() => {
       i++;
       setDisplayed(text.slice(0, i));
       if (i >= text.length) clearInterval(id);
     }, speed);
-    return () => clearInterval(id);
+    return () => {
+      clearInterval(id);
+      setDisplayed("");
+    };
   }, [active, text, speed]);
   return displayed;
 }
@@ -107,11 +109,11 @@ export default function HeroSection() {
       after(T.FINAL_WM_AFTER, () => { setRevealedCount(9); setPhase("final-wm"); });
       after(T.REST_AFTER, () => setPhase("rest"));
     });
-  }, []);
+  }, [playAudio]);
 
   useEffect(() => {
-    runSequence();
-    return clearTimers;
+    const id = setTimeout(() => runSequence(), 0);
+    return () => { clearTimeout(id); clearTimers(); };
   }, [runSequence]);
 
   useLayoutEffect(() => {
