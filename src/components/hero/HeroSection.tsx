@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import AnimatedWordmark, { WordmarkMode } from "./AnimatedWordmark";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import SectionTag from "@/components/ui/SectionTag";
 
 // ── Sequence timing (ms from phase start) ─────────────────────────
 const T = {
@@ -145,7 +147,7 @@ export default function HeroSection() {
   const descWords = DESC_TEXT.split(" ");
 
   return (
-    <section ref={sectionRef} className="flex flex-col relative min-h-[calc(100vh-65px)] overflow-clip">
+    <section ref={sectionRef} className="flex flex-col relative min-h-[calc(100vh-65px)] overflow-clip px-[calc(100%/12)]">
 
       {/* 12-column grid lines */}
       <div
@@ -157,27 +159,14 @@ export default function HeroSection() {
         }}
       />
 
-      {/* ── Main (columns 1–11) ── */}
-      <main className="flex flex-col flex-1" style={{ paddingLeft: `${colWidth}px`, paddingRight: `${colWidth}px` }}>
+      {/* ── Section tag — full-width, sticky ── */}
+      <SectionTag label="[ 01 - Hero ]" variant="dark" phase={phase} />
 
-        {/* ── Header ── */}
-        <header className="flex justify-between items-start pt-8 pb-0 relative z-[3] font-[family-name:var(--font-jetbrains-mono)] text-[13px] tracking-[0.1em] uppercase text-[var(--lofi-muted)]">
-          <div className="flex gap-7">
-            <span className="text-[var(--lofi-accent)]">[ 01 - Hero ]</span>
-            <span>
-              <b className="text-[var(--lofi-ink)] font-medium">LOFISTACK</b>
-            </span>
-          </div>
-          <div className="text-right">
-            <span>
-              Phase:{" "}
-              <b className="text-[var(--lofi-accent)] font-medium">{phase}</b>
-            </span>
-          </div>
-        </header>
+      {/* ── Main (columns 1–11) ── */}
+      <Card className="flex flex-col flex-1 rounded-none ring-0 gap-0 py-0 bg-transparent text-[var(--lofi-ink)]">
 
         {/* ── Body ── */}
-        <div className="flex-1 relative z-[2]">
+        <CardContent className="flex-1 relative z-[2] px-0">
 
           {/* Floating wordmark */}
           <div
@@ -228,10 +217,10 @@ export default function HeroSection() {
             ))}
           </div>
 
-        </div>
+        </CardContent>
 
         {/* ── Footer ── */}
-        <footer className="flex justify-between items-end relative z-[3] pb-8">
+        <CardFooter className="justify-between items-end relative z-[3] pb-8 mb-8 px-0 border-0 rounded-none bg-transparent">
           {/* Parked tagline (left) */}
           <div
             className="font-[family-name:var(--font-instrument-serif)] italic font-normal leading-[1.18] text-[var(--lofi-ink-soft)] tracking-[-0.005em] text-left transition-opacity duration-[700ms] ease-in-out"
@@ -290,9 +279,9 @@ export default function HeroSection() {
               </div>
             </div>
           </div>
-        </footer>
+        </CardFooter>
 
-      </main>
+      </Card>
     </section>
   );
 }

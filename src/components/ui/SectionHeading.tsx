@@ -1,4 +1,7 @@
 import { ReactNode } from "react";
+import CtaButton from "@/components/ui/CtaButton";
+
+interface CtaDef { label: string; href?: string }
 
 interface SectionHeadingProps {
   overline: string;
@@ -9,6 +12,7 @@ interface SectionHeadingProps {
   titleClassName?: string;
   bodyClassName?: string;
   variant?: "dark" | "cream";
+  cta?: { primary: CtaDef; secondary: CtaDef };
 }
 
 export default function SectionHeading({
@@ -20,6 +24,7 @@ export default function SectionHeading({
   titleClassName = "",
   bodyClassName = "",
   variant = "cream",
+  cta,
 }: SectionHeadingProps) {
   const isDark = variant === "dark";
 
@@ -34,6 +39,20 @@ export default function SectionHeading({
       <p className={["m-0 [font-family:var(--font-space-grotesk)] text-[clamp(14px,1.2vw,17px)] leading-[1.6] max-w-[42ch]", isDark ? "text-[var(--lofi-muted)]" : "text-[var(--cream-muted)]", bodyClassName].join(" ")}>
         {body}
       </p>
+      {cta && (
+        <div className="flex gap-2 mt-8">
+          <CtaButton
+            variant="primary"
+            href={cta.primary.href}
+            className={!isDark ? "border-[var(--cream-ink)] bg-[var(--cream-ink)] text-[var(--cream-bg)] hover:bg-[var(--cream-accent)] hover:border-[var(--cream-accent)] hover:text-white" : ""}
+          >{cta.primary.label}</CtaButton>
+          <CtaButton
+            variant="ghost"
+            href={cta.secondary.href}
+            className={!isDark ? "border-[var(--cream-ink)] text-[var(--cream-ink)] hover:bg-[var(--cream-ink)] hover:text-[var(--cream-bg)]" : ""}
+          >{cta.secondary.label}</CtaButton>
+        </div>
+      )}
     </div>
   );
 }

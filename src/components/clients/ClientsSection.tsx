@@ -6,7 +6,7 @@ import SectionTag from "@/components/ui/SectionTag";
 import SectionHeading from "@/components/ui/SectionHeading";
 import ClientCard from "./ClientCard";
 import LogoMarquee from "./LogoMarquee";
-import PillButton from "./PillButton";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
 
 export default function ClientsSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -23,53 +23,54 @@ export default function ClientsSection() {
   }, []);
 
   return (
-    <main ref={sectionRef} className="bg-[var(--cream-bg)] pb-[120px]">
+    <section ref={sectionRef} className="bg-[var(--cream-bg)] pb-[120px] px-[calc(100%/12)]">
       <SectionTag label="[ 04 — Clients ]" variant="cream" />
 
-      <section
-        className="flex flex-col pt-16"
-        style={{ paddingLeft: "calc(100% / 8)", paddingRight: "calc(100% / 8)" }}
-      >
-        {/* Section 1 — left: heading + CTAs | right: stats */}
-        <section className="flex justify-between items-start gap-20 py-8 border-b border-[var(--cream-ink)]/10">
-          {/* Left — heading + CTAs */}
-          <section className="flex flex-col gap-6">
+      <Card className="rounded-none ring-0 gap-0 py-0 bg-transparent overflow-visible">
+
+        <CardHeader className="sticky top-[148px] z-10 flex justify-between items-start gap-20 pt-16 pb-8 px-0 rounded-none border-b border-[var(--cream-ink)]/10 bg-[var(--cream-bg)]">
             <SectionHeading
+              className="self-start"
               overline="Clients We Collaborate With"
               title={<>We build the stack <em className="[font-family:var(--font-instrument-serif)] italic font-normal text-[var(--cream-accent)]">behind</em> ambitious teams.</>}
               body={clientsHeadline.body}
+              cta={{ primary: { label: clientsHeadline.cta.primary.label, href: clientsHeadline.cta.primary.href }, secondary: { label: clientsHeadline.cta.secondary.label, href: clientsHeadline.cta.secondary.href } }}
             />
-            <div className="flex flex-wrap gap-3">
-              <PillButton primary href={clientsHeadline.cta.primary.href}>{clientsHeadline.cta.primary.label}</PillButton>
-              <PillButton href={clientsHeadline.cta.secondary.href}>{clientsHeadline.cta.secondary.label}</PillButton>
+
+            {/* Right — stats */}
+            <section className="flex flex-col gap-0 shrink-0 self-stretch justify-between">
+              {STATS.map((s, i) => (
+                <div key={s.label} className={["flex items-baseline gap-4", i < STATS.length - 1 ? "pb-5 border-b border-[var(--cream-ink)]/10 mb-5" : ""].join(" ")}>
+                  <span className="[font-family:var(--font-space-grotesk)] font-bold text-[clamp(36px,3.5vw,56px)] leading-none tracking-[-0.05em] text-[var(--cream-ink)]">
+                    {s.value}
+                  </span>
+                  <span className="[font-family:var(--font-jetbrains-mono)] text-[9px] tracking-[0.16em] uppercase text-[var(--cream-muted)]">
+                    {s.label}
+                  </span>
+                </div>
+              ))}
+            </section>
+        </CardHeader>
+
+        <CardContent className="px-0 overflow-visible">
+
+          {/* Marquee */}
+          <section className="lofi-reveal py-8">
+            <LogoMarquee logos={LOGOS} duration="32s" />
+          </section>
+
+          {/* Cards grid */}
+          <section className="lofi-reveal py-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              {CLIENTS.map((c) => (
+                <ClientCard key={c.name} {...c} />
+              ))}
             </div>
           </section>
 
-          {/* Right — stats */}
-          <section className="flex flex-col gap-0 shrink-0 self-stretch justify-between">
-            {STATS.map((s, i) => (
-              <div key={s.label} className={["flex items-baseline gap-4", i < STATS.length - 1 ? "pb-5 border-b border-[var(--cream-ink)]/10 mb-5" : ""].join(" ")}>
-                <span className="[font-family:var(--font-space-grotesk)] font-bold text-[clamp(36px,3.5vw,56px)] leading-none tracking-[-0.05em] text-[var(--cream-ink)]">
-                  {s.value}
-                </span>
-                <span className="[font-family:var(--font-jetbrains-mono)] text-[9px] tracking-[0.16em] uppercase text-[var(--cream-muted)]">
-                  {s.label}
-                </span>
-              </div>
-            ))}
-          </section>
-        </section>
-
-        {/* Section 2 — marquee + cards + quote */}
-        <article className="lofi-reveal py-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-            <LogoMarquee logos={LOGOS} duration="32s" />
-
-            {CLIENTS.slice(0, 3).map((c) => (
-              <ClientCard key={c.name} {...c} />
-            ))}
-
-            <div className="md:col-span-2 lg:col-span-1 lg:row-span-2 flex flex-col justify-between rounded-2xl border border-[var(--cream-ink)]/10 bg-[var(--cream-bg-deep)] p-7">
+          {/* Testimonial */}
+          <section className="lofi-reveal py-8 pb-[120px]">
+            <div className="flex flex-col justify-between rounded-2xl border border-[var(--cream-ink)]/10 bg-[var(--cream-bg-deep)] p-7 max-w-2xl">
               <span className="[font-family:var(--font-instrument-serif)] italic text-[72px] leading-none text-[var(--cream-accent)] opacity-25 select-none">
                 "
               </span>
@@ -86,13 +87,10 @@ export default function ClientsSection() {
                 </p>
               </footer>
             </div>
+          </section>
 
-            {CLIENTS.slice(3, 6).map((c) => (
-              <ClientCard key={c.name} {...c} />
-            ))}
-          </div>
-        </article>
-      </section>
-    </main>
+        </CardContent>
+      </Card>
+    </section>
   );
 }

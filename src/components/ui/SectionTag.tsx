@@ -6,9 +6,10 @@ interface SectionTagProps {
   style?: CSSProperties;
   variant?: "dark" | "cream";
   progress?: number;
+  phase?: string;
 }
 
-export default function SectionTag({ label, className = "", style, variant = "dark", progress }: SectionTagProps) {
+export default function SectionTag({ label, className = "", style, variant = "dark", progress, phase }: SectionTagProps) {
   const isDark = variant === "dark";
 
   return (
@@ -22,9 +23,16 @@ export default function SectionTag({ label, className = "", style, variant = "da
         "font-[family-name:var(--font-jetbrains-mono)] text-[13px] tracking-[0.12em] uppercase",
         className,
       ].join(" ")}
-      style={{ paddingLeft: "calc(100% / 12)", paddingRight: "calc(100% / 12)", ...style }}
     >
+
       <span className="shrink-0">{label}</span>
+
+      {phase !== undefined && (
+        <span className={["ml-auto tabular-nums", isDark ? "text-[var(--lofi-accent)]" : "text-[var(--cream-accent)]"].join(" ")}>
+          <span className="text-[var(--lofi-muted)]">phase</span>: <b className="font-medium">{phase}</b>
+        </span>
+      )}
+
       {progress !== undefined && (
         <>
           <div className={["flex-1 mx-4 h-[2px] rounded-[2px] overflow-hidden", isDark ? "bg-[var(--lofi-muted)]/30" : "bg-[var(--cream-line)]"].join(" ")}>
