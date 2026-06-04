@@ -1,6 +1,6 @@
 export default function Navbar() {
   return (
-    <nav className="flex items-center justify-between px-12 py-6 border-b border-[var(--lofi-line)] font-[family-name:var(--font-jetbrains-mono)] text-[12px] tracking-[0.06em] uppercase text-[var(--lofi-ink-soft)] sticky top-0 z-50 backdrop-blur-[12px] bg-[rgba(28,26,35,0.85)]">
+    <nav className="flex items-center justify-between px-12 py-6 border-b border-[var(--lofi-line)] font-[family-name:var(--font-jetbrains-mono)] text-[12px] tracking-[0.06em] uppercase text-[var(--lofi-ink-soft)] sticky top-0 z-50 backdrop-blur-[12px] bg-[#1c1a23]">
 
       {/* Logo mark */}
       <div className="flex items-center gap-[10px] font-medium text-[var(--lofi-ink)]">
@@ -10,13 +10,20 @@ export default function Navbar() {
 
       {/* Nav links */}
       <ul className="flex gap-7 list-none m-0 p-0">
-        {["Home", "About Us", "Services", "Pricing", "Showcase", "Blogs"].map((item) => (
-          <li key={item}>
+        {[
+          { label: "Home",     href: "/" },
+          { label: "About Us", href: "/about" },
+          { label: "Services", href: "#" },
+          { label: "Pricing",  href: "#" },
+          { label: "Showcase", href: "#" },
+          { label: "Blogs",    href: "#" },
+        ].map(({ label, href }) => (
+          <li key={label}>
             <a
-              href="#"
+              href={href}
               className="text-[var(--lofi-ink-soft)] no-underline hover:text-[var(--lofi-ink)] transition-colors duration-150"
             >
-              {item}
+              {label}
             </a>
           </li>
         ))}

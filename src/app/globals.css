@@ -152,8 +152,6 @@
 /* ── Lofi app base ──────────────────────────────────────────────── */
 
 .lofi-page {
-  background: var(--lofi-bg);
-  color: var(--lofi-ink);
   font-family: var(--font-space-grotesk), 'Helvetica Neue', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;

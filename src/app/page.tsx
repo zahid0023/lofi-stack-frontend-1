@@ -8,7 +8,7 @@ import BottomRail from "@/components/common/BottomRail";
 
 export default function Home() {
   return (
-    <div className="lofi-page">
+    <div className="lofi-page bg-[var(--lofi-bg)] text-[var(--lofi-ink)]">
       <Navbar />
       <HeroSection />
       <EthosSection />
