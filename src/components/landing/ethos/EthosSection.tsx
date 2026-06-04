@@ -39,7 +39,7 @@ export default function EthosSection() {
 
       <Card className="rounded-none ring-0 gap-0 py-0 bg-transparent text-[var(--lofi-ink)] overflow-visible">
         <CardContent className="px-0 overflow-visible">
-          <section className="flex justify-between items-start gap-40">
+          <div className="flex justify-between items-start gap-40">
             <SectionHeading
               variant="dark"
               className="sticky top-[148px] self-start shrink-0 w-[30%]"
@@ -52,14 +52,14 @@ export default function EthosSection() {
               cta={{ primary: { label: "Book a Consultation", href: "#" }, secondary: { label: "About Us", href: "#" } }}
             />
 
-            <section>
+            <div>
               <article ref={rightRef} className="pt-2">
                 {PARAGRAPHS.map((p, i) => (
-                  <ScrollParagraph key={i} lead={p.lead} text={p.text} />
+                  <ScrollParagraph key={p.text} lead={p.lead} text={p.text} />
                 ))}
               </article>
-            </section>
-          </section>
+            </div>
+          </div>
         </CardContent>
       </Card>
 

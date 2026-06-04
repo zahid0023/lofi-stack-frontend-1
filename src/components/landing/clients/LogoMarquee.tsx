@@ -50,7 +50,7 @@ export default function LogoMarquee({ logos, duration = "32s" }: LogoMarqueeProp
         style={{ animation: `lofi-ticker ${duration} linear infinite` }}
       >
         {[...logos, ...logos].map((logo, i) => (
-          <LogoItem key={i} {...logo} />
+          <LogoItem key={`${logo.name}-${i}`} {...logo} />
         ))}
       </div>
     </div>

@@ -13,7 +13,7 @@ export default function SectionTag({ label, className = "", style, variant = "da
   const isDark = variant === "dark";
 
   return (
-    <header
+    <div
       className={[
         "sticky top-[80px] z-20 flex items-center py-4",
         isDark
@@ -46,6 +46,6 @@ export default function SectionTag({ label, className = "", style, variant = "da
           </span>
         </>
       )}
-    </header>
+    </div>
   );
 }

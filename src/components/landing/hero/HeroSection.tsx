@@ -1,9 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import AnimatedWordmark, { WordmarkMode } from "./AnimatedWordmark";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import SectionTag from "@/components/ui/SectionTag";
+import CtaButton from "@/components/ui/CtaButton";
 
 // ── Sequence timing (ms from phase start) ─────────────────────────
 const T = {
@@ -22,7 +23,7 @@ const T = {
 const TAGLINE = "A quiet workspace for loud ideas";
 const DESC_TEXT =
   "Lofistack is a stack of tools, sounds and small rituals for people who make things at low volume";
-
+  
 type Phase =
   | "idle"
   | "wm-reveal"
@@ -56,7 +57,6 @@ function useTypewriter(text: string, speed: number, active: boolean) {
 export default function HeroSection() {
   const [phase, setPhase] = useState<Phase>("idle");
   const [revealedCount, setRevealedCount] = useState(0);
-  const [colWidth, setColWidth] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -117,16 +117,6 @@ export default function HeroSection() {
     const id = setTimeout(() => runSequence(), 0);
     return () => { clearTimeout(id); clearTimers(); };
   }, [runSequence]);
-
-  useLayoutEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-    const measure = () => setColWidth(el.offsetWidth / 12);
-    measure();
-    const ro = new ResizeObserver(measure);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
 
   // ── Derived visibility ───────────────────────────────────────────
   const showWordmark = ["wm-reveal", "wm-collapse", "final-wm", "rest"].includes(phase);
@@ -208,7 +198,7 @@ export default function HeroSection() {
           >
             {descWords.map((word, i) => (
               <span
-                key={i}
+                key={`${word}-${i}`}
                 className={`sw-word${showDescBig ? " in" : ""}`}
                 style={{ transitionDelay: showDescBig ? `${i * 130}ms` : "0ms" }}
               >
@@ -286,31 +276,3 @@ export default function HeroSection() {
   );
 }
 
-// ── CTA Button ────────────────────────────────────────────────────
-
-interface CtaButtonProps {
-  variant: "primary" | "ghost";
-  children: React.ReactNode;
-  href?: string;
-  onClick?: () => void;
-}
-
-function CtaButton({ variant, children, href, onClick }: CtaButtonProps) {
-  const base =
-    "font-[family-name:var(--font-jetbrains-mono)] text-[11px] tracking-[0.1em] uppercase py-[11px] px-[18px] rounded-full cursor-pointer border border-[var(--lofi-ink)] transition-all duration-[180ms] ease-linear no-underline inline-flex items-center gap-2";
-
-  const variants = {
-    primary:
-      "bg-[var(--lofi-ink)] text-[var(--lofi-bg)] hover:bg-[var(--lofi-accent)] hover:border-[var(--lofi-accent)] hover:text-white",
-    ghost:
-      "bg-transparent text-[var(--lofi-ink)] hover:bg-[var(--lofi-ink)] hover:text-[var(--lofi-bg)]",
-  };
-
-  const className = `${base} ${variants[variant]}`;
-
-  if (href) {
-    return <a href={href} className={className}>{children}</a>;
-  }
-
-  return <button onClick={onClick} className={className}>{children}</button>;
-}

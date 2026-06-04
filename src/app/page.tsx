@@ -1,10 +1,10 @@
-import Navbar from "@/components/Navbar";
-import HeroSection from "@/components/hero/HeroSection";
-import EthosSection from "@/components/ethos/EthosSection";
-import FeaturesSection from "@/components/features/FeaturesSection";
-import ClientsSection from "@/components/clients/ClientsSection";
-import GallerySection from "@/components/gallery/GallerySection";
-import BottomRail from "@/components/BottomRail";
+import Navbar from "@/components/common/Navbar";
+import HeroSection from "@/components/landing/hero/HeroSection";
+import EthosSection from "@/components/landing/ethos/EthosSection";
+import FeaturesSection from "@/components/landing/features/FeaturesSection";
+import ClientsSection from "@/components/landing/clients/ClientsSection";
+import GallerySection from "@/components/landing/gallery/GallerySection";
+import BottomRail from "@/components/common/BottomRail";
 
 export default function Home() {
   return (

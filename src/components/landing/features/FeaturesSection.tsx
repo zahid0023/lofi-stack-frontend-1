@@ -1,15 +1,16 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { features as FEATURES, featuresHeadline } from "@/data/landing";
 import SectionTag from "@/components/ui/SectionTag";
 import SectionHeading from "@/components/ui/SectionHeading";
 import FeatureCard from "./FeatureCard";
 import TestimonialCard from "./TestimonialCard";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { useRevealObserver } from "@/hooks/useRevealObserver";
 
 export default function FeaturesSection() {
-  const sectionRef = useRef<HTMLElement>(null);
+  const sectionRef = useRevealObserver();
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -24,18 +25,6 @@ export default function FeaturesSection() {
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  // Scroll-reveal for headline
-  useEffect(() => {
-    const reveals = sectionRef.current?.querySelectorAll(".lofi-reveal");
-    if (!reveals) return;
-    const io = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.target.classList.toggle("in", e.isIntersecting)),
-      { threshold: 0.12 }
-    );
-    reveals.forEach((el) => io.observe(el));
-    return () => io.disconnect();
   }, []);
 
   return (

@@ -18,7 +18,7 @@ export default function ScrollParagraph({ text, lead }: ScrollParagraphProps) {
     >
       {words.map((word, i) => (
         <span
-          key={i}
+          key={`${word}-${i}`}
           className="lofi-word"
           style={{ transitionDelay: `${i * 18}ms` }}
         >
