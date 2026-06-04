@@ -1,3 +1,7 @@
+import { Card, CardHeader, CardAction, CardContent, CardFooter } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+
 interface FeatureCardProps {
   index: string;
   tag: string;
@@ -16,10 +20,10 @@ export default function FeatureCard({
   statLabel,
 }: FeatureCardProps) {
   return (
-    <article className="
-      group relative flex flex-col h-full overflow-hidden
+    <Card className="
+      group relative h-full gap-0 py-0 ring-0
       rounded-[20px] border border-[var(--cream-line)]
-      bg-[var(--cream-bg-deep)] p-8
+      bg-[var(--cream-bg-deep)]
       transition-all duration-300 ease-out
       hover:shadow-[0_16px_56px_rgba(26,23,20,0.12)]
       hover:bg-[var(--cream-bg)]
@@ -33,8 +37,8 @@ export default function FeatureCard({
         origin-bottom transition-transform duration-500 ease-out
       " />
 
-      {/* Index + tag */}
-      <div className="flex items-center justify-between mb-6">
+      {/* Index + tag — CardAction gives the automatic [1fr auto] grid */}
+      <CardHeader className="items-center px-8 pt-8 pb-0 rounded-none">
         <span className="
           [font-family:var(--font-space-grotesk)] font-bold leading-none tracking-[-0.04em]
           text-[clamp(52px,5.5vw,76px)]
@@ -42,38 +46,34 @@ export default function FeatureCard({
         ">
           {index}
         </span>
-        <span className="
-          [font-family:var(--font-jetbrains-mono)] text-[9px]
-          tracking-[0.14em] uppercase text-[var(--cream-muted)]
-          border border-[var(--cream-line)] rounded-full px-3 py-[5px]
+        <CardAction className="self-center">
+          <Badge variant="outline" className="[font-family:var(--font-jetbrains-mono)] text-[9px] tracking-[0.14em] uppercase text-[var(--cream-muted)] border-[var(--cream-line)] rounded-full px-3 py-[5px] h-auto bg-transparent">
+            {tag}
+          </Badge>
+        </CardAction>
+      </CardHeader>
+
+      {/* Title + divider + description */}
+      <CardContent className="flex flex-col flex-1 px-8 pt-6 pb-0">
+        <h3 className="
+          m-0 mb-5 [font-family:var(--font-space-grotesk)] font-semibold
+          text-[clamp(22px,2vw,30px)] tracking-[-0.03em] leading-[1.1]
+          text-[var(--cream-ink)]
         ">
-          {tag}
-        </span>
-      </div>
+          {title}
+        </h3>
+        <Separator className="mb-5 bg-[var(--cream-line)]" />
+        <p className="
+          flex-1 m-0 [font-family:var(--font-space-grotesk)]
+          text-[clamp(13px,1.05vw,15px)] leading-[1.8]
+          text-[var(--cream-ink-soft)]
+        ">
+          {description}
+        </p>
+      </CardContent>
 
-      {/* Title */}
-      <h3 className="
-        m-0 mb-5 [font-family:var(--font-space-grotesk)] font-semibold
-        text-[clamp(22px,2vw,30px)] tracking-[-0.03em] leading-[1.1]
-        text-[var(--cream-ink)]
-      ">
-        {title}
-      </h3>
-
-      {/* Divider */}
-      <div className="h-px bg-[var(--cream-line)] mb-5" />
-
-      {/* Description */}
-      <p className="
-        flex-1 m-0 [font-family:var(--font-space-grotesk)]
-        text-[clamp(13px,1.05vw,15px)] leading-[1.8]
-        text-[var(--cream-ink-soft)]
-      ">
-        {description}
-      </p>
-
-      {/* Footer */}
-      <div className="flex items-end justify-between mt-6 pt-5 border-t border-[var(--cream-line)]">
+      {/* Stat + arrow */}
+      <CardFooter className="px-8 pb-8 pt-5 mt-6 border-t border-[var(--cream-line)] bg-transparent rounded-none items-end justify-between">
         <div className="flex flex-col gap-[5px]">
           <span className="
             [font-family:var(--font-space-grotesk)] font-bold
@@ -101,8 +101,8 @@ export default function FeatureCard({
         >
           <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-      </div>
+      </CardFooter>
 
-    </article>
+    </Card>
   );
 }

@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import AnimatedWordmark, { WordmarkMode } from "./AnimatedWordmark";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import SectionTag from "@/components/ui/SectionTag";
-import CtaButton from "@/components/ui/CtaButton";
+import SectionTag from "@/components/common/SectionTag";
+import CtaButton from "@/components/common/CtaButton";
 
 // ── Sequence timing (ms from phase start) ─────────────────────────
 const T = {

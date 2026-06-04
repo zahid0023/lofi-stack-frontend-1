@@ -1,8 +1,8 @@
 "use client";
 
 import { logos as LOGOS, clients as CLIENTS, clientStats as STATS, clientsHeadline } from "@/data/landing";
-import SectionTag from "@/components/ui/SectionTag";
-import SectionHeading from "@/components/ui/SectionHeading";
+import SectionTag from "@/components/common/SectionTag";
+import SectionHeading from "@/components/common/SectionHeading";
 import ClientCard from "./ClientCard";
 import LogoMarquee from "./LogoMarquee";
 import TestimonialCard from "@/components/landing/features/TestimonialCard";

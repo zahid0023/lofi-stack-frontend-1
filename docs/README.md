@@ -27,6 +27,7 @@ Full component list: [`landing/README.md`](./landing/README.md)
 
 | File | Component |
 |---|---|
+| [`ui/creating-components.md`](./ui/creating-components.md) | **Component authoring guide** |
 | [`ui/section-tag.md`](./ui/section-tag.md) | `SectionTag` |
 | [`ui/section-heading.md`](./ui/section-heading.md) | `SectionHeading` |
 | [`ui/cta-button.md`](./ui/cta-button.md) | `CtaButton` |

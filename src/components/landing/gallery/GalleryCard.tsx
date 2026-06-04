@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
 
 export interface GalleryCardProps {
   id: string;
@@ -81,13 +82,9 @@ export default function GalleryCard({ id, caption, tag, photo }: GalleryCardProp
           ">
             {caption}
           </p>
-          <p className="
-            m-0
-            [font-family:var(--font-jetbrains-mono)]
-            text-[8px] tracking-[0.14em] uppercase text-[#6f665b]
-          ">
+          <Badge variant="ghost" className="m-0 p-0 h-auto [font-family:var(--font-jetbrains-mono)] text-[8px] tracking-[0.14em] uppercase text-[#6f665b] hover:bg-transparent">
             {tag}
-          </p>
+          </Badge>
         </div>
       </div>
     </div>

@@ -1,3 +1,5 @@
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+
 export interface LogoItem {
   name: string;
   initials: string;
@@ -6,15 +8,11 @@ export interface LogoItem {
 function LogoItem({ name, initials }: LogoItem) {
   return (
     <span className="inline-flex items-center gap-3 px-7 cursor-default select-none group">
-      <span className="
-        inline-flex items-center justify-center w-7 h-7 rounded-full shrink-0
-        border border-[var(--cream-ink)]/15 bg-[var(--cream-bg-deep)]
-        group-hover:border-[var(--cream-accent)]/50 transition-colors duration-300
-      ">
-        <span className="[font-family:var(--font-jetbrains-mono)] text-[8px] tracking-[0.06em] uppercase text-[var(--cream-accent)]">
+      <Avatar className="size-7 bg-[var(--cream-bg-deep)] after:border-[var(--cream-ink)]/15 group-hover:after:border-[var(--cream-accent)]/50 transition-colors duration-300">
+        <AvatarFallback className="[font-family:var(--font-jetbrains-mono)] text-[8px] tracking-[0.06em] uppercase text-[var(--cream-accent)] bg-transparent">
           {initials}
-        </span>
-      </span>
+        </AvatarFallback>
+      </Avatar>
       <span className="
         [font-family:var(--font-space-grotesk)] font-medium text-[12px]
         tracking-[-0.01em] whitespace-nowrap

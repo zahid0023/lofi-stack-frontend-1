@@ -1,3 +1,6 @@
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+
 export interface ClientCardProps {
   initials: string;
   name: string;
@@ -29,23 +32,15 @@ export default function ClientCard({ initials, name, industry, description }: Cl
           }}
         />
         {/* Logo circle */}
-        <div className="
-          relative flex items-center justify-center w-9 h-9 rounded-full shrink-0
-          border border-[var(--cream-ink)]/15 bg-[var(--cream-bg)]
-          group-hover:border-[var(--cream-accent)]/50 transition-colors duration-300
-        ">
-          <span className="[font-family:var(--font-jetbrains-mono)] text-[9px] tracking-[0.08em] uppercase text-[var(--cream-accent)]">
+        <Avatar className="size-9 bg-[var(--cream-bg)] after:border-[var(--cream-ink)]/15 group-hover:after:border-[var(--cream-accent)]/50 transition-colors duration-300">
+          <AvatarFallback className="[font-family:var(--font-jetbrains-mono)] text-[9px] tracking-[0.08em] uppercase text-[var(--cream-accent)] bg-transparent">
             {initials}
-          </span>
-        </div>
+          </AvatarFallback>
+        </Avatar>
         {/* Industry tag */}
-        <span className="
-          relative [font-family:var(--font-jetbrains-mono)] text-[9px]
-          tracking-[0.16em] uppercase text-[var(--cream-muted)]
-          group-hover:text-[var(--cream-accent)] transition-colors duration-300
-        ">
+        <Badge variant="ghost" className="relative [font-family:var(--font-jetbrains-mono)] text-[9px] tracking-[0.16em] uppercase text-[var(--cream-muted)] h-auto py-0 px-0 hover:bg-transparent group-hover:text-[var(--cream-accent)] transition-colors duration-300">
           {industry}
-        </span>
+        </Badge>
       </div>
 
       {/* Content */}

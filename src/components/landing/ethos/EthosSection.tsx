@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import { ethosParagraphs as PARAGRAPHS, ethosMeta } from "@/data/landing";
-import SectionTag from "@/components/ui/SectionTag";
-import SectionHeading from "@/components/ui/SectionHeading";
+import SectionTag from "@/components/common/SectionTag";
+import SectionHeading from "@/components/common/SectionHeading";
 import ScrollParagraph from "./ScrollParagraph";
 import { Card, CardContent } from "@/components/ui/card";
 

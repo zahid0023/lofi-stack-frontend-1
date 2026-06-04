@@ -1,3 +1,7 @@
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
 export interface PillButtonProps {
   children: React.ReactNode;
   primary?: boolean;
@@ -6,13 +10,13 @@ export interface PillButtonProps {
 }
 
 export default function PillButton({ children, primary, href, onClick }: PillButtonProps) {
-  const base = `
-    inline-flex items-center gap-2 group
-    [font-family:var(--font-jetbrains-mono)] text-[11px] tracking-[0.1em] uppercase
-    px-5 py-[11px] rounded-full border
-    transition-all duration-200 ease-out cursor-pointer no-underline
-  `;
-  const style = primary
+  const baseClass = cn(
+    "inline-flex items-center gap-2 group",
+    "[font-family:var(--font-jetbrains-mono)] text-[11px] tracking-[0.1em] uppercase",
+    "h-auto px-5 py-[11px] rounded-full border",
+    "transition-all duration-200 ease-out no-underline"
+  );
+  const variantClass = primary
     ? "bg-[var(--cream-ink)] text-[var(--cream-bg)] border-[var(--cream-ink)] hover:bg-[var(--cream-accent)] hover:border-[var(--cream-accent)] hover:text-white"
     : "bg-transparent text-[var(--cream-ink)] border-[var(--cream-ink)]/30 hover:border-[var(--cream-ink)] hover:bg-[var(--cream-ink)]/[0.06]";
 
@@ -23,7 +27,16 @@ export default function PillButton({ children, primary, href, onClick }: PillBut
     </>
   );
 
-  return href
-    ? <a href={href} className={`${base} ${style}`}>{inner}</a>
-    : <button onClick={onClick} className={`${base} ${style}`}>{inner}</button>;
+  if (href) {
+    return (
+      <Button asChild variant="ghost" className={cn(baseClass, variantClass)}>
+        <a href={href}>{inner}</a>
+      </Button>
+    );
+  }
+  return (
+    <Button variant="ghost" className={cn(baseClass, variantClass)} onClick={onClick}>
+      {inner}
+    </Button>
+  );
 }

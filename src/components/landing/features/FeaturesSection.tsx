@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { features as FEATURES, featuresHeadline } from "@/data/landing";
-import SectionTag from "@/components/ui/SectionTag";
-import SectionHeading from "@/components/ui/SectionHeading";
+import SectionTag from "@/components/common/SectionTag";
+import SectionHeading from "@/components/common/SectionHeading";
 import FeatureCard from "./FeatureCard";
 import TestimonialCard from "./TestimonialCard";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
