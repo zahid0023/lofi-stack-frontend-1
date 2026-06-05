@@ -8,4 +8,4 @@ export { logos, clients, clientStats, clientsHeadline } from "./clients";
 export type { Moment } from "./gallery";
 export { moments, galleryHeadline } from "./gallery";
 export type { TeamMember } from "./about";
-export { team, aboutHeadline } from "./about";
+export { team, teamSection } from "./about";

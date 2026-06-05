@@ -246,8 +246,8 @@ export default function HeroSection() {
             <div
               className="flex transition-opacity duration-[700ms] ease-in-out"
               style={{
-                opacity: showCta ? 1 : 0,
-                pointerEvents: showCta ? "auto" : "none",
+                opacity: (showCta || audioPlaying) ? 1 : 0,
+                pointerEvents: (showCta || audioPlaying) ? "auto" : "none",
                 transitionDelay: showCta ? "360ms" : "0ms",
               }}
             >

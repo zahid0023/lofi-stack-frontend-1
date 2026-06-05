@@ -1,6 +1,6 @@
 # Clean Code Issues
 
-> All 9 issues fixed.
+> 9 issues fixed. 15 new issues open.
 
 | # | Severity | File(s) | Issue | Status |
 |---|---|---|---|---|
@@ -13,6 +13,21 @@
 | [7](#issue-7--section-used-for-layout-containers) | Low | `EthosSection`, `ClientsSection` | `<section>` used for layout-only containers | ✅ Fixed |
 | [8](#issue-8--header-used-as-label-tag) | Low | `ui/SectionTag.tsx` | `<header>` element used as a label tag | ✅ Fixed |
 | [9](#issue-9--module-level-derived-array) | Low | `landing/gallery/GallerySection.tsx` | `ROW2` derived at module level | ✅ Fixed |
+| [10](#issue-10--hardcoded-content-in-aboutsection-hero) | High | `about-us/AboutSection.tsx` | Hero block content fully hardcoded — not data-driven | ⬜ Open |
+| [11](#issue-11--alt-text-typos-in-aboutsection-hero) | High | `about-us/AboutSection.tsx` | `alt="about us iamge"` and `alt="avatr"` — typos | ⬜ Open |
+| [12](#issue-12--section-layout-wrapper-in-aboutsection) | Low | `about-us/AboutSection.tsx` | Inner `<section>` used as layout-only wrapper + unnecessary `cn()` | ⬜ Open |
+| [13](#issue-13--dead-onreplay-prop-in-bottomrail) | Medium | `common/BottomRail.tsx`, `app/page.tsx` | `onReplay` prop defined but never passed — replay button never renders | ⬜ Open |
+| [14](#issue-14--unused-variable-i-in-ethossection) | Low | `landing/ethos/EthosSection.tsx` | Unused variable `i` in `.map((p, i) =>` | ⬜ Open |
+| [15](#issue-15--unused-spanclass-in-lifeatsection) | Low | `about-us/LifeAtSection.tsx` | `spanClass` record defined at module level but never used | ⬜ Open |
+| [16](#issue-16--raw-button-in-ourteamsection) | Low | `about-us/OurTeamSection.tsx` | Raw `<button>` used for carousel nav instead of shadcn `CarouselPrevious`/`CarouselNext` | ⬜ Open |
+| [17](#issue-17--index-keys-on-gallery-marquee-arrays) | Low | `landing/gallery/GallerySection.tsx` | Array index keys on duplicated marquee arrays — issue #6 not applied here | ⬜ Open |
+| [18](#issue-18--raw-a-tag-in-processsection-cta) | Low | `services/ProcessSection.tsx` | Raw `<a>` tag in CTA strip instead of `CtaButton` component | ⬜ Open |
+| [19](#issue-19--missing-lofistack-logo-asset) | High | `common/Navbar.tsx` | No Lofistack logo image — Navbar uses plain text fallback only | ⬜ Open |
+| [20](#issue-20--coordinate-missing-place-name-carousel) | Medium | `common/Navbar.tsx` | Coordinate shows lat/long only — place name carousel is missing | ⬜ Open |
+| [21](#issue-21--grid-lines-render-over-sectiontag-and-phase) | High | `landing/hero/HeroSection.tsx` | Grid lines render on top of SectionTag and phase indicator — z-order is wrong | ⬜ Open |
+| [22](#issue-22--animated-wordmark-does-not-span-line-1-to-line-11) | High | `landing/hero/HeroSection.tsx`, `landing/hero/AnimatedWordmark.tsx` | Wordmark "L" does not start at line 1 and "K" does not stop at line 11 | ⬜ Open |
+| [23](#issue-23--cta-buttons-lack-visual-style) | Low | `landing/hero/HeroSection.tsx`, `common/CtaButton.tsx` | CTA buttons in HeroSection footer lack a distinctive, polished visual style | ⬜ Open |
+| [24](#issue-24--clientssection-sticky-header-leaves-gaps-while-scrolling) | High | `landing/clients/ClientsSection.tsx` | Sticky SectionTag + SectionHeading leaves empty space — sections 2, 3, 4 do not flow correctly below | ⬜ Open |
 
 ---
 
@@ -221,3 +236,186 @@ const row2 = useMemo(() => [...MOMENTS].reverse(), []);
 ```
 
 The empty dependency array means it still only computes once per component mount, with no performance difference. This fix was applied alongside Issue 4 since both touched `GallerySection`.
+
+---
+
+## Issue 10 — Hardcoded content in AboutSection hero
+
+**File:** `about-us/AboutSection.tsx`
+**Severity:** High
+
+### Problem
+The hero block inside `AboutSection` has all content hardcoded directly in JSX — the headline, body copy, cover image URL, crew avatar URL, name "John Doe", and role "Creative Director". Every other section across the codebase reads from a data file (`src/data/`). This hero block is the only section that cannot be updated without editing component code.
+
+---
+
+## Issue 11 — Alt text typos in AboutSection hero
+
+**File:** `about-us/AboutSection.tsx`
+**Severity:** High
+
+### Problem
+Two `<img>` elements have incorrect `alt` attributes:
+- `alt="about us iamge"` — "iamge" should be "image"
+- `alt="avatr"` — "avatr" should be "avatar"
+
+Screen readers will read these misspellings aloud, and they fail basic accessibility checks.
+
+---
+
+## Issue 12 — `<section>` layout wrapper + unnecessary `cn()` in AboutSection
+
+**File:** `about-us/AboutSection.tsx`
+**Severity:** Low
+
+### Problem
+Two separate problems in the same file:
+
+1. The hero content is wrapped in `<section className={cn("py-32")}>`. This is a layout-only container with no semantic meaning — the same pattern fixed in Issue 7 for `EthosSection` and `ClientsSection` was not applied here.
+
+2. `cn("py-32")` calls `cn` with a single static string. `cn` is a utility for merging conditional or conflicting class names — calling it with one unconditional string adds a function call overhead with no benefit.
+
+---
+
+## Issue 13 — Dead `onReplay` prop in BottomRail
+
+**File:** `common/BottomRail.tsx`, `app/page.tsx`
+**Severity:** Medium
+
+### Problem
+`BottomRail` accepts an `onReplay` prop and conditionally renders a replay button when it is passed. However, `page.tsx` renders `<BottomRail />` with no props — the replay button never appears in any page. The prop and its conditional render branch are dead code.
+
+---
+
+## Issue 14 — Unused variable `i` in EthosSection
+
+**File:** `landing/ethos/EthosSection.tsx`
+**Severity:** Low
+
+### Problem
+```tsx
+{PARAGRAPHS.map((p, i) => (
+  <ScrollParagraph key={p.text} lead={p.lead} text={p.text} />
+))}
+```
+The index `i` is declared in the map callback but never used. The key is correctly derived from `p.text`, not `i`.
+
+---
+
+## Issue 15 — Unused `spanClass` in LifeAtSection
+
+**File:** `about-us/LifeAtSection.tsx`
+**Severity:** Low
+
+### Problem
+A `spanClass` record is defined at module level but never referenced anywhere in the component. The bento grid uses inline conditional expressions instead:
+```ts
+const spanClass: Record<string, string> = {
+  wide: "col-span-2",
+  tall: "row-span-2",
+  normal: "col-span-1",
+};
+```
+
+---
+
+## Issue 16 — Raw `<button>` for carousel navigation in OurTeamSection
+
+**File:** `about-us/OurTeamSection.tsx`
+**Severity:** Low
+
+### Problem
+The carousel prev/next controls use hand-rolled `<button>` elements with manual `onClick={() => api?.scrollPrev()}` calls. The shadcn `carousel` component ships `CarouselPrevious` and `CarouselNext` sub-components specifically for this purpose, with built-in disabled state, accessibility attributes, and consistent styling. Using raw buttons bypasses these and drifts from the design system.
+
+---
+
+## Issue 17 — Array index keys on duplicated gallery marquee arrays
+
+**File:** `landing/gallery/GallerySection.tsx`
+**Severity:** Low
+
+### Problem
+Issue #6 fixed index-based React keys in `BottomRail`, `LogoMarquee`, and `HeroSection`, but `GallerySection` was missed:
+```tsx
+{[...ROW1, ...ROW1].map((m, i) => (
+  <GalleryCard key={`r1-${i}`} {...m} />
+))}
+{[...row2, ...row2].map((m, i) => (
+  <GalleryCard key={`r2-${i}`} {...m} />
+))}
+```
+Because the array is doubled for the seamless loop, two cards share the same index within each pass (e.g. index 0 appears twice). The row prefix prevents cross-row collisions but not within-row ones.
+
+---
+
+## Issue 18 — Raw `<a>` tag in ProcessSection CTA strip
+
+**File:** `services/ProcessSection.tsx`
+**Severity:** Low
+
+### Problem
+The CTA strip at the bottom of `ProcessSection` uses a raw `<a>` element with manually duplicated pill styles. Every other CTA across the codebase uses the shared `CtaButton` component, which encapsulates the lofi pill style, hover states, and the `asChild` + `href` pattern. This one-off `<a>` duplicates those styles and drifts from the design system.
+
+---
+
+## Issue 19 — Missing Lofistack logo asset
+
+**File:** `common/Navbar.tsx`
+**Severity:** High
+
+### Problem
+The Navbar renders the brand identity as a plain orange dot + "LOFISTACK" text string. There is no actual logo image — no `<img>` or `<svg>` asset exists in `/public/`. The component map specifies that the Navbar logo should display a Lofistack logo image (`lofistack-logo.svg` or `.png`) with the text as a fallback. Without the asset, the brand mark is missing from every page across the entire site.
+
+---
+
+## Issue 24 — ClientsSection sticky header leaves gaps while scrolling
+
+**File:** `landing/clients/ClientsSection.tsx`
+**Severity:** High
+
+### Problem
+The `[ 04 — Clients ]` SectionTag and SectionHeading are sticky at the top of the section. While the user scrolls down through Section 2 (Logo Marquee), Section 3 (Brand Cards), and Section 4 (TestimonialCard), unwanted empty space appears between the sticky header and the content below it. Sections 2, 3, and 4 should flow directly and continuously beneath the sticky header with no gaps — each section visible immediately below the previous one as the user scrolls.
+
+---
+
+## Issue 23 — CTA buttons lack visual style
+
+**File:** `landing/hero/HeroSection.tsx`, `common/CtaButton.tsx`
+**Severity:** Low
+
+### Problem
+The CTA buttons in the HeroSection footer (`▶ play intro` and `Book a Consultation`) use a basic pill style with minimal visual distinction. They lack a polished, characterful look that matches the lofi aesthetic of the rest of the section — the buttons should feel intentional and visually interesting, not generic.
+
+---
+
+## Issue 22 — Animated wordmark does not span line 1 to line 11
+
+**File:** `landing/hero/HeroSection.tsx`, `landing/hero/AnimatedWordmark.tsx`
+**Severity:** High
+
+### Problem
+In spread mode the "LOFISTACK" wordmark should fill exactly from the 1st vertical grid line to the 11th vertical grid line — the left edge of "L" touching line 1 and the right edge of "K" touching line 11. Currently the wordmark is centered with fixed pixel offsets (`left: 48px`, `right: 48px`) and does not align to the grid lines. The wordmark width and position must be derived from the column grid so it always stretches precisely between line 1 and line 11 regardless of viewport width.
+
+---
+
+## Issue 21 — Grid lines render over SectionTag and phase indicator
+
+**File:** `landing/hero/HeroSection.tsx`
+**Severity:** High
+
+### Problem
+The 11 vertical grid lines are rendered as an `absolute` overlay spanning the full section. The grid line `<div>` currently has no explicit z-index, so it stacks above the SectionTag and the phase indicator in certain paint orders. The grid lines should always sit underneath all content — SectionTag and phase must render on top of the grid, not below it.
+
+---
+
+## Issue 20 — Coordinate missing place name carousel
+
+**File:** `common/Navbar.tsx`
+**Severity:** Medium
+
+### Problem
+The Navbar coordinate block shows only a static lat/long. It should instead be a single auto-cycling ticker that alternates between the coordinate and "Singapore" on repeat indefinitely:
+
+`1.3521° N / 103.8198° E → Singapore → 1.3521° N / 103.8198° E → Singapore → 1.3521° N / 103.8198° E → Singapore → …`
+
+Each step flips/slides to the next value on a timed interval. Currently only the static coordinates are rendered — the alternating carousel is missing entirely.
