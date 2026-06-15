@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, JetBrains_Mono, Instrument_Serif } from "next/font/google";
+import {
+  Space_Grotesk,
+  JetBrains_Mono,
+  Instrument_Serif,
+} from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/common/SmoothScroll";
+import Navbar from "@/components/common/Navbar";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -40,6 +45,7 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${instrumentSerif.variable}`}
     >
       <body>
+        <Navbar />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
