@@ -4,11 +4,11 @@ import React from "react";
 import { useRevealObserver } from "@/hooks/useRevealObserver";
 import { lifeAtSection, lifePhotos, rituals } from "@/data/about";
 
-const spanClass: Record<string, string> = {
-  wide: "col-span-2",
-  tall: "row-span-2",
-  normal: "col-span-1",
-};
+// const spanClass: Record<string, string> = {
+//   wide: "col-span-2",
+//   tall: "row-span-2",
+//   normal: "col-span-1",
+// };
 
 export default function LifeAtSection() {
   const ref = useRevealObserver(0.06);
@@ -19,7 +19,6 @@ export default function LifeAtSection() {
       className="py-24 border-t border-[var(--cream-ink)]/10"
     >
       <div className="container space-y-14">
-
         {/* Header */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-6">
           <div className="col-span-2 lofi-reveal">
@@ -31,7 +30,10 @@ export default function LifeAtSection() {
             </h2>
           </div>
           <div className="col-span-1 hidden lg:block" />
-          <div className="col-span-3 flex items-end lofi-reveal" style={{ transitionDelay: "100ms" }}>
+          <div
+            className="col-span-3 flex items-end lofi-reveal"
+            style={{ transitionDelay: "100ms" }}
+          >
             <p className="text-[var(--cream-ink)]/50 text-base leading-relaxed">
               {lifeAtSection.body}
             </p>
@@ -80,9 +82,11 @@ export default function LifeAtSection() {
               key={photo.src}
               className={[
                 "group relative overflow-hidden",
-                i === 0 ? "col-span-2 row-span-1" :
-                i === 1 ? "col-span-1 row-span-2" :
-                "col-span-1 row-span-1",
+                i === 0
+                  ? "col-span-2 row-span-1"
+                  : i === 1
+                    ? "col-span-1 row-span-2"
+                    : "col-span-1 row-span-1",
               ].join(" ")}
             >
               <img
@@ -103,7 +107,6 @@ export default function LifeAtSection() {
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );
