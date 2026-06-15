@@ -34,7 +34,6 @@ export default function EthosSection() {
 
   return (
     <section className="relative bg-[var(--lofi-bg)] pb-[160px] px-[calc(100%/12)]">
-
       <SectionTag label="[ 02 - Ethos ]" className="mb-14" />
 
       <Card className="rounded-none ring-0 gap-0 py-0 bg-transparent text-[var(--lofi-ink)] overflow-visible">
@@ -49,12 +48,15 @@ export default function EthosSection() {
               titleClassName="!font-bold !text-[clamp(96px,14vw,220px)] !leading-[0.84] !tracking-[-0.05em] !mb-7"
               body={ethosMeta.tagline}
               bodyClassName="![font-family:var(--font-jetbrains-mono)] !text-[11px] tracking-[0.16em] uppercase pt-[14px] border-t border-[var(--lofi-line)] mt-7 !max-w-[22em]"
-              cta={{ primary: { label: "Book a Consultation", href: "#" }, secondary: { label: "About Us", href: "#" } }}
+              cta={{
+                primary: { label: "Book a Consultation", href: "#" },
+                secondary: { label: "About Us", href: "#" },
+              }}
             />
 
             <div>
               <article ref={rightRef} className="pt-2">
-                {PARAGRAPHS.map((p, i) => (
+                {PARAGRAPHS.map((p) => (
                   <ScrollParagraph key={p.text} lead={p.lead} text={p.text} />
                 ))}
               </article>
@@ -62,7 +64,6 @@ export default function EthosSection() {
           </div>
         </CardContent>
       </Card>
-
     </section>
   );
 }
