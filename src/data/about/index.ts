@@ -1,5 +1,6 @@
-export type { TeamMember, Milestone, Value, Ritual, LifePhoto } from "./about";
+export type { Intro, TeamMember, Milestone, Value, Ritual, LifePhoto } from "./about";
 export {
+  intro,
   team,
   teamSection,
   milestones,

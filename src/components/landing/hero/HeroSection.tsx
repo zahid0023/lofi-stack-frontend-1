@@ -5,6 +5,7 @@ import AnimatedWordmark, { WordmarkMode } from "./AnimatedWordmark";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import SectionTag from "@/components/common/SectionTag";
 import CtaButton from "@/components/common/CtaButton";
+import { ArrowRightIcon, PauseIcon, PlayIcon } from "lucide-react";
 
 // ── Sequence timing (ms from phase start) ─────────────────────────
 const T = {
@@ -23,7 +24,7 @@ const T = {
 const TAGLINE = "A quiet workspace for loud ideas";
 const DESC_TEXT =
   "Lofistack is a stack of tools, sounds and small rituals for people who make things at low volume";
-  
+
 type Phase =
   | "idle"
   | "wm-reveal"
@@ -78,7 +79,10 @@ export default function HeroSection() {
       audioRef.current.addEventListener("ended", () => setAudioPlaying(false));
     }
     audioRef.current.currentTime = 0;
-    audioRef.current.play().then(() => setAudioPlaying(true)).catch(() => { });
+    audioRef.current
+      .play()
+      .then(() => setAudioPlaying(true))
+      .catch(() => {});
   }, []);
 
   const stopAudio = useCallback(() => {
@@ -99,7 +103,7 @@ export default function HeroSection() {
       setPhase("wm-reveal");
       for (let i = 0; i < 9; i++) {
         after(i * T.LETTER_STAGGER, () =>
-          setRevealedCount((n) => Math.max(n, i + 1))
+          setRevealedCount((n) => Math.max(n, i + 1)),
         );
       }
       after(T.COLLAPSE_AFTER, () => setPhase("wm-collapse"));
@@ -108,28 +112,48 @@ export default function HeroSection() {
       after(T.TAG_PARK_AFTER, () => setPhase("tag-park"));
       after(T.DESC_STAGGER_AFTER, () => setPhase("desc-stagger"));
       after(T.DESC_PARK_AFTER, () => setPhase("desc-park"));
-      after(T.FINAL_WM_AFTER, () => { setRevealedCount(9); setPhase("final-wm"); });
+      after(T.FINAL_WM_AFTER, () => {
+        setRevealedCount(9);
+        setPhase("final-wm");
+      });
       after(T.REST_AFTER, () => setPhase("rest"));
     });
   }, [playAudio]);
 
   useEffect(() => {
     const id = setTimeout(() => runSequence(), 0);
-    return () => { clearTimeout(id); clearTimers(); };
+    return () => {
+      clearTimeout(id);
+      clearTimers();
+    };
   }, [runSequence]);
 
   // ── Derived visibility ───────────────────────────────────────────
-  const showWordmark = ["wm-reveal", "wm-collapse", "final-wm", "rest"].includes(phase);
+  const showWordmark = [
+    "wm-reveal",
+    "wm-collapse",
+    "final-wm",
+    "rest",
+  ].includes(phase);
   const showTagBig = phase === "tag-type";
-  const showTagSmall = ["tag-park", "desc-stagger", "desc-park", "final-wm", "rest"].includes(phase);
+  const showTagSmall = [
+    "tag-park",
+    "desc-stagger",
+    "desc-park",
+    "final-wm",
+    "rest",
+  ].includes(phase);
   const showDescBig = phase === "desc-stagger";
   const showDescSmall = ["desc-park", "final-wm", "rest"].includes(phase);
   const showCta = ["desc-park", "final-wm", "rest"].includes(phase);
 
   const wm_mode: WordmarkMode =
-    phase === "wm-reveal" ? "spread"
-      : phase === "wm-collapse" ? "collapsed"
-        : phase === "final-wm" || phase === "rest" ? "final"
+    phase === "wm-reveal"
+      ? "spread"
+      : phase === "wm-collapse"
+        ? "collapsed"
+        : phase === "final-wm" || phase === "rest"
+          ? "final"
           : "collapsed";
 
   const typewriterActive = phase === "tag-type";
@@ -137,14 +161,17 @@ export default function HeroSection() {
   const descWords = DESC_TEXT.split(" ");
 
   return (
-    <section ref={sectionRef} className="flex flex-col relative min-h-[calc(100vh-65px)] overflow-clip px-[calc(100%/12)]">
-
+    <section
+      ref={sectionRef}
+      className="flex flex-col relative min-h-[calc(100vh-65px)] overflow-clip px-[calc(100%/12)]"
+    >
       {/* 12-column grid lines */}
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none opacity-60"
         style={{
-          backgroundImage: "linear-gradient(to right, var(--lofi-line) 1px, transparent 1px)",
+          backgroundImage:
+            "linear-gradient(to right, var(--lofi-line) 1px, transparent 1px)",
           backgroundSize: "calc(100% / 12) 100%",
         }}
       />
@@ -154,11 +181,9 @@ export default function HeroSection() {
 
       {/* ── Main (columns 1–11) ── */}
       <Card className="flex flex-col flex-1 rounded-none ring-0 gap-0 py-0 bg-transparent text-[var(--lofi-ink)]">
-
         {/* ── Body ── */}
         <CardContent className="flex-1 relative z-[2] px-0">
-
-          {/* Floating wordmark */}
+          {/* Floating wordmark — spans grid lines 1 to 11 */}
           <div
             className="absolute top-1/2 -translate-y-1/2 flex items-center justify-center transition-opacity duration-[650ms] ease-in-out"
             style={{
@@ -200,13 +225,14 @@ export default function HeroSection() {
               <span
                 key={`${word}-${i}`}
                 className={`sw-word${showDescBig ? " in" : ""}`}
-                style={{ transitionDelay: showDescBig ? `${i * 130}ms` : "0ms" }}
+                style={{
+                  transitionDelay: showDescBig ? `${i * 130}ms` : "0ms",
+                }}
               >
                 {word}{" "}
               </span>
             ))}
           </div>
-
         </CardContent>
 
         {/* ── Footer ── */}
@@ -246,33 +272,48 @@ export default function HeroSection() {
             <div
               className="flex transition-opacity duration-[700ms] ease-in-out"
               style={{
-                opacity: (showCta || audioPlaying) ? 1 : 0,
-                pointerEvents: (showCta || audioPlaying) ? "auto" : "none",
+                opacity: showCta || audioPlaying ? 1 : 0,
+                pointerEvents: showCta || audioPlaying ? "auto" : "none",
                 transitionDelay: showCta ? "360ms" : "0ms",
               }}
             >
               <div className="flex flex-col items-end gap-[6px]">
-                <span className={`now-playing${audioPlaying ? " visible" : ""}`}>
+                <span
+                  className={`now-playing${audioPlaying ? " visible" : ""}`}
+                >
                   <span className="now-playing-bars">
-                    <span /><span /><span /><span />
+                    <span />
+                    <span />
+                    <span />
+                    <span />
                   </span>
                   now playing
                 </span>
                 <div className="flex gap-2 items-center">
-                  <CtaButton variant="ghost" onClick={() => audioPlaying ? stopAudio() : runSequence()}>
-                    {audioPlaying ? "■ stop" : "▶ play intro"}
+                  <CtaButton
+                    variant="ghost"
+                    onClick={() => (audioPlaying ? stopAudio() : runSequence())}
+                  >
+                    {audioPlaying ? (
+                      <>
+                        <PauseIcon className="size-3" /> Stop
+                      </>
+                    ) : (
+                      <>
+                        <PlayIcon className="size-3" /> Play Intro
+                      </>
+                    )}
                   </CtaButton>
-                  <CtaButton variant="primary" href="#">
-                    Book a Consultation <span className="transition-transform duration-[220ms]">→</span>
+                  <CtaButton variant="primary" href="#" className="group">
+                    Book a Consultation{" "}
+                    <ArrowRightIcon className="transition-transform duration-[220ms] group-hover:translate-x-1" />
                   </CtaButton>
                 </div>
               </div>
             </div>
           </div>
         </CardFooter>
-
       </Card>
     </section>
   );
 }
-

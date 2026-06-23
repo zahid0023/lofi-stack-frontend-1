@@ -2,7 +2,14 @@
 
 import React from "react";
 import { useRevealObserver } from "@/hooks/useRevealObserver";
-import { processSteps, processSection, processCommitments, processCta } from "@/data/services";
+import CtaButton from "@/components/common/CtaButton";
+import {
+  processSteps,
+  processSection,
+  processCommitments,
+  processCta,
+} from "@/data/services";
+import { ArrowRightIcon } from "lucide-react";
 
 export default function ProcessSection() {
   const ref = useRevealObserver(0.06);
@@ -13,7 +20,6 @@ export default function ProcessSection() {
       className="relative bg-[#faf7f2] px-[calc(100%/12)] py-24 border-t border-[var(--cream-ink)]/10"
     >
       <div className="container space-y-20">
-
         {/* ── Header ── */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-6">
           <div className="col-span-2 lofi-reveal">
@@ -25,7 +31,10 @@ export default function ProcessSection() {
             </h2>
           </div>
           <div className="col-span-1 hidden lg:block" />
-          <div className="col-span-3 flex items-end lofi-reveal" style={{ transitionDelay: "100ms" }}>
+          <div
+            className="col-span-3 flex items-end lofi-reveal"
+            style={{ transitionDelay: "100ms" }}
+          >
             <p className="text-[var(--cream-ink)]/50 text-base leading-relaxed">
               {processSection.body}
             </p>
@@ -58,7 +67,10 @@ export default function ProcessSection() {
               {/* Detail bullets */}
               <ul className="relative mt-auto space-y-2 pt-4 border-t border-[var(--cream-ink)]/10">
                 {step.details.map((detail) => (
-                  <li key={detail} className="flex items-center gap-2 text-xs text-[var(--cream-ink)]/40">
+                  <li
+                    key={detail}
+                    className="flex items-center gap-2 text-xs text-[var(--cream-ink)]/40"
+                  >
                     <span className="size-1 rounded-full bg-[var(--cream-accent)]/50 shrink-0" />
                     {detail}
                   </li>
@@ -103,16 +115,16 @@ export default function ProcessSection() {
                 {processCta.attribution}
               </p>
             </div>
-            <a
+            <CtaButton
+              variant="primary"
               href={processCta.buttonHref}
-              className="shrink-0 inline-flex items-center gap-2 px-6 py-3 bg-[var(--cream-accent)] text-white text-sm font-medium tracking-wide rounded-full hover:bg-[var(--cream-accent)]/80 transition-colors duration-200"
+              className="border-[var(--cream-accent)] group bg-[var(--cream-accent)] text-white hover:bg-[var(--cream-accent)]/80 hover:border-[var(--cream-accent)]/80 shrink-0"
             >
               {processCta.buttonLabel}
-              <span className="text-base leading-none">→</span>
-            </a>
+              <ArrowRightIcon className="text-base leading-none transition-transform duration-200 group-hover:translate-x-0.5" />
+            </CtaButton>
           </div>
         </div>
-
       </div>
     </section>
   );

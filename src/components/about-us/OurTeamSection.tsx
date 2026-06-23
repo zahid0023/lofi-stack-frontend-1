@@ -1,33 +1,18 @@
 "use client";
 
-import React from "react";
 import { useRevealObserver } from "@/hooks/useRevealObserver";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  type CarouselApi,
+  CarouselNext,
+  CarouselPrevious,
 } from "@/components/ui/carousel";
 import { team, teamSection } from "@/data/about";
 import TeamMemberCard from "./TeamMemberCard";
 
 export default function OurTeamSection() {
   const ref = useRevealObserver(0.06);
-  const [api, setApi] = React.useState<CarouselApi>();
-  const [canPrev, setCanPrev] = React.useState(false);
-  const [canNext, setCanNext] = React.useState(true);
-
-  React.useEffect(() => {
-    if (!api) return;
-    const update = () => {
-      setCanPrev(api.canScrollPrev());
-      setCanNext(api.canScrollNext());
-    };
-    update();
-    api.on("select", update);
-    return () => { api.off("select", update); };
-  }, [api]);
 
   return (
     <section
@@ -35,7 +20,6 @@ export default function OurTeamSection() {
       className="py-24 border-t border-[var(--cream-ink)]/10"
     >
       <div className="container space-y-14">
-
         {/* Header */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-6">
           <div className="col-span-2 lofi-reveal">
@@ -47,7 +31,10 @@ export default function OurTeamSection() {
             </h2>
           </div>
           <div className="col-span-1 hidden lg:block" />
-          <div className="col-span-3 flex items-end lofi-reveal" style={{ transitionDelay: "100ms" }}>
+          <div
+            className="col-span-3 flex items-end lofi-reveal"
+            style={{ transitionDelay: "100ms" }}
+          >
             <p className="text-[var(--cream-ink)]/50 text-base leading-relaxed">
               {teamSection.body}
             </p>
@@ -56,13 +43,13 @@ export default function OurTeamSection() {
 
         {/* Carousel */}
         <div className="lofi-reveal" style={{ transitionDelay: "200ms" }}>
-          <Carousel
-            setApi={setApi}
-            opts={{ align: "start", dragFree: true }}
-          >
+          <Carousel opts={{ align: "start", dragFree: true }}>
             <CarouselContent className="-ml-3">
               {team.map((member) => (
-                <CarouselItem key={member.index} className="pl-3 basis-1/2 sm:basis-1/3 lg:basis-1/4">
+                <CarouselItem
+                  key={member.index}
+                  className="pl-3 basis-1/2 sm:basis-1/3 lg:basis-1/4"
+                >
                   <TeamMemberCard
                     name={member.name}
                     role={member.role}
@@ -71,27 +58,14 @@ export default function OurTeamSection() {
                 </CarouselItem>
               ))}
             </CarouselContent>
+
+            {/* Controls */}
+            <div className="flex items-center justify-end gap-2 mt-6">
+              <CarouselPrevious className="relative top-auto left-auto right-auto translate-x-0 translate-y-0 size-11 bg-[var(--cream-ink)] text-[#efe6d6] border-0 hover:bg-[var(--cream-accent)] hover:text-white transition-all duration-200 disabled:opacity-25" />
+              <CarouselNext className="relative top-auto left-auto right-auto translate-x-0 translate-y-0 size-11 bg-[var(--cream-ink)] text-[#efe6d6] border-0 hover:bg-[var(--cream-accent)] hover:text-white transition-all duration-200 disabled:opacity-25" />
+            </div>
           </Carousel>
         </div>
-
-        {/* Controls */}
-        <div className="flex items-center justify-end gap-2 lofi-reveal" style={{ transitionDelay: "280ms" }}>
-          <button
-            onClick={() => api?.scrollPrev()}
-            disabled={!canPrev}
-            className="size-11 bg-[var(--cream-ink)] flex items-center justify-center text-[#efe6d6] hover:bg-[var(--cream-accent)] transition-all duration-200 disabled:opacity-25 disabled:pointer-events-none"
-          >
-            <ChevronLeft className="size-5" />
-          </button>
-          <button
-            onClick={() => api?.scrollNext()}
-            disabled={!canNext}
-            className="size-11 bg-[var(--cream-ink)] flex items-center justify-center text-[#efe6d6] hover:bg-[var(--cream-accent)] transition-all duration-200 disabled:opacity-25 disabled:pointer-events-none"
-          >
-            <ChevronRight className="size-5" />
-          </button>
-        </div>
-
       </div>
     </section>
   );
