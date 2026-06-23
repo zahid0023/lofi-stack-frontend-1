@@ -1,3 +1,46 @@
+// ── Intro / Hero ─────────────────────────────────────────────────────────────
+
+export interface Intro {
+  headline: {
+    light: string;
+    accent: string;
+  };
+  cover: {
+    src: string;
+    alt: string;
+  };
+  crewLabel: string;
+  crewQuote: string;
+  avatar: {
+    src: string;
+    alt: string;
+    name: string;
+    role: string;
+  };
+  body: string;
+}
+
+export const intro: Intro = {
+  headline: {
+    light: "We build software ",
+    accent: "the way good neighbors build community.",
+  },
+  cover: {
+    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/guri4/img1.png",
+    alt: "about us image",
+  },
+  crewLabel: "Our Crew, Our Strength",
+  crewQuote:
+    "We aim to bring diverse minds together, turning ideas into experiences that matter.",
+  avatar: {
+    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/guri3/avatar1.png",
+    alt: "avatar",
+    name: "John Doe",
+    role: "Creative Director",
+  },
+  body: "We are a team of creators, thinkers, and builders who believe in crafting experiences that truly connect. Our story is built on passion, innovation, and the drive to bring meaningful ideas to life.",
+};
+
 // ── Team ─────────────────────────────────────────────────────────────────────
 
 export interface TeamMember {

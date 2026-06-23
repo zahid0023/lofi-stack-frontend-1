@@ -1,9 +1,5 @@
 "use client";
 
-interface BottomRailProps {
-  onReplay?: () => void;
-}
-
 const TICKER_ITEMS = [
   { label: "App Development" },
   { label: "CRM" },
@@ -15,7 +11,7 @@ const TICKER_ITEMS = [
   { label: "Custom Solutions" },
 ];
 
-export default function BottomRail({ onReplay }: BottomRailProps) {
+export default function BottomRail() {
   const items = [...TICKER_ITEMS, ...TICKER_ITEMS]; // duplicate for seamless loop
 
   return (
@@ -41,15 +37,8 @@ export default function BottomRail({ onReplay }: BottomRailProps) {
         </div>
       </div>
 
-      {/* Replay button */}
-      {onReplay && (
-        <button
-          onClick={onReplay}
-          className="bg-transparent border border-[var(--lofi-line)] text-[var(--lofi-ink-soft)] font-[family-name:var(--font-jetbrains-mono)] text-[10px] tracking-[0.12em] uppercase px-3 py-2 rounded-full cursor-pointer transition-all duration-[180ms] ease-linear hover:border-[var(--lofi-ink)] hover:text-[var(--lofi-ink)]"
-        >
-          ↺ replay sequence
-        </button>
-      )}
+      {/* Placeholder to preserve grid columns */}
+      <div />
     </div>
   );
 }

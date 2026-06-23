@@ -53,7 +53,7 @@ export default function GallerySection() {
               style={{ animation: "lofi-ticker 52s linear infinite", animationPlayState: row1Paused ? "paused" : "running" }}
             >
               {[...ROW1, ...ROW1].map((m, i) => (
-                <GalleryCard key={`r1-${i}`} {...m} />
+                <GalleryCard key={`${m.id}-r1-${i}`} {...m} />
               ))}
             </div>
           </div>
@@ -71,7 +71,7 @@ export default function GallerySection() {
               style={{ animation: "lofi-ticker 60s linear infinite reverse", animationPlayState: row2Paused ? "paused" : "running" }}
             >
               {[...row2, ...row2].map((m, i) => (
-                <GalleryCard key={`r2-${i}`} {...m} />
+                <GalleryCard key={`${m.id}-r2-${i}`} {...m} />
               ))}
             </div>
           </div>

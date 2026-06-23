@@ -1,6 +1,6 @@
 # Clean Code Issues
 
-> 9 issues fixed. 15 new issues open.
+> 20 issues fixed. 4 open.
 
 | #                                                                         | Severity | File(s)                                                             | Issue                                                                                                | Status   |
 | ------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | -------- |
@@ -13,20 +13,20 @@
 | [7](#issue-7--section-used-for-layout-containers)                         | Low      | `EthosSection`, `ClientsSection`                                    | `<section>` used for layout-only containers                                                          | ✅ Fixed |
 | [8](#issue-8--header-used-as-label-tag)                                   | Low      | `ui/SectionTag.tsx`                                                 | `<header>` element used as a label tag                                                               | ✅ Fixed |
 | [9](#issue-9--module-level-derived-array)                                 | Low      | `landing/gallery/GallerySection.tsx`                                | `ROW2` derived at module level                                                                       | ✅ Fixed |
-| [10](#issue-10--hardcoded-content-in-aboutsection-hero)                   | High     | `about-us/AboutSection.tsx`                                         | Hero block content fully hardcoded — not data-driven                                                 | ⬜ Open  |
+| [10](#issue-10--hardcoded-content-in-aboutsection-hero)                   | High     | `about-us/IntroSection.tsx`, `data/about/about.ts`                  | Hero block content fully hardcoded — not data-driven                                                 | ✅ Fixed |
 | [11](#issue-11--alt-text-typos-in-aboutsection-hero)                      | High     | `about-us/AboutSection.tsx`                                         | `alt="about us iamge"` and `alt="avatr"` — typos                                                     | ✅ Fixed |
 | [12](#issue-12--section-layout-wrapper-in-aboutsection)                   | Low      | `about-us/AboutSection.tsx`                                         | Inner `<section>` used as layout-only wrapper + unnecessary `cn()`                                   | ✅ Fixed |
-| [13](#issue-13--dead-onreplay-prop-in-bottomrail)                         | Medium   | `common/BottomRail.tsx`, `app/page.tsx`                             | `onReplay` prop defined but never passed — replay button never renders                               | ⬜ Open  |
+| [13](#issue-13--dead-onreplay-prop-in-bottomrail)                         | Medium   | `common/BottomRail.tsx`                                             | `onReplay` prop defined but never passed — replay button never renders                               | ✅ Fixed |
 | [14](#issue-14--unused-variable-i-in-ethossection)                        | Low      | `landing/ethos/EthosSection.tsx`                                    | Unused variable `i` in `.map((p, i) =>`                                                              | ✅ Fixed |
 | [15](#issue-15--unused-spanclass-in-lifeatsection)                        | Low      | `about-us/LifeAtSection.tsx`                                        | `spanClass` record defined at module level but never used                                            | ✅ Fixed |
-| [16](#issue-16--raw-button-in-ourteamsection)                             | Low      | `about-us/OurTeamSection.tsx`                                       | Raw `<button>` used for carousel nav instead of shadcn `CarouselPrevious`/`CarouselNext`             | ⬜ Open  |
-| [17](#issue-17--index-keys-on-gallery-marquee-arrays)                     | Low      | `landing/gallery/GallerySection.tsx`                                | Array index keys on duplicated marquee arrays — issue #6 not applied here                            | ⬜ Open  |
-| [18](#issue-18--raw-a-tag-in-processsection-cta)                          | Low      | `services/ProcessSection.tsx`                                       | Raw `<a>` tag in CTA strip instead of `CtaButton` component                                          | ⬜ Open  |
+| [16](#issue-16--raw-button-in-ourteamsection)                             | Low      | `about-us/OurTeamSection.tsx`                                       | Raw `<button>` used for carousel nav instead of shadcn `CarouselPrevious`/`CarouselNext`             | ✅ Fixed |
+| [17](#issue-17--index-keys-on-gallery-marquee-arrays)                     | Low      | `landing/gallery/GallerySection.tsx`                                | Array index keys on duplicated marquee arrays — issue #6 not applied here                            | ✅ Fixed |
+| [18](#issue-18--raw-a-tag-in-processsection-cta)                          | Low      | `services/ProcessSection.tsx`                                       | Raw `<a>` tag in CTA strip instead of `CtaButton` component                                          | ✅ Fixed |
 | [19](#issue-19--missing-lofistack-logo-asset)                             | High     | `common/Navbar.tsx`                                                 | No Lofistack logo image — Navbar uses plain text fallback only                                       | ⬜ Open  |
 | [20](#issue-20--coordinate-missing-place-name-carousel)                   | Medium   | `common/Navbar.tsx`                                                 | Coordinate shows lat/long only — place name carousel is missing                                      | ⬜ Open  |
 | [21](#issue-21--grid-lines-render-over-sectiontag-and-phase)              | High     | `landing/hero/HeroSection.tsx`                                      | Grid lines render on top of SectionTag and phase indicator — z-order is wrong                        | ⬜ Open  |
 | [22](#issue-22--animated-wordmark-does-not-span-line-1-to-line-11)        | High     | `landing/hero/HeroSection.tsx`, `landing/hero/AnimatedWordmark.tsx` | Wordmark "L" does not start at line 1 and "K" does not stop at line 11                               | ⬜ Open  |
-| [23](#issue-23--cta-buttons-lack-visual-style)                            | Low      | `landing/hero/HeroSection.tsx`, `common/CtaButton.tsx`              | CTA buttons in HeroSection footer lack a distinctive, polished visual style                          | ⬜ Open  |
+| [23](#issue-23--cta-buttons-lack-visual-style)                            | Low      | `landing/hero/HeroSection.tsx`, `common/CtaButton.tsx`              | CTA buttons in HeroSection footer lack a distinctive, polished visual style                          | ✅ Fixed |
 | [24](#issue-24--clientssection-sticky-header-leaves-gaps-while-scrolling) | High     | `landing/clients/ClientsSection.tsx`                                | Sticky SectionTag + SectionHeading leaves empty space — sections 2, 3, 4 do not flow correctly below | ✅ Fixed |
 
 ---
@@ -265,12 +265,29 @@ The empty dependency array means it still only computes once per component mount
 
 ## Issue 10 — Hardcoded content in AboutSection hero
 
-**File:** `about-us/AboutSection.tsx`
+**File:** `about-us/IntroSection.tsx`, `data/about/about.ts`
 **Severity:** High
 
 ### Problem
 
-The hero block inside `AboutSection` has all content hardcoded directly in JSX — the headline, body copy, cover image URL, crew avatar URL, name "John Doe", and role "Creative Director". Every other section across the codebase reads from a data file (`src/data/`). This hero block is the only section that cannot be updated without editing component code.
+The hero block inside `IntroSection` had all content hardcoded directly in JSX — the headline, body copy, cover image URL, crew avatar URL, name "John Doe", and role "Creative Director". Every other section across the codebase reads from a data file (`src/data/`). This hero block was the only section that could not be updated without editing component code.
+
+### How it was fixed
+
+Created a typed `Intro` data object in `src/data/about/about.ts` and exported it through `src/data/about/index.ts`. `IntroSection.tsx` now imports `intro` from `@/data/about` and renders every field from data:
+
+```ts
+export const intro: Intro = {
+  headline: { light: "We build software ", accent: "the way good neighbors build community." },
+  cover: { src: "...", alt: "about us image" },
+  crewLabel: "Our Crew, Our Strength",
+  crewQuote: "...",
+  avatar: { src: "...", alt: "avatar", name: "John Doe", role: "Creative Director" },
+  body: "...",
+};
+```
+
+All JSX copy, image URLs, and the crew member details now come from `intro`, matching the data-driven pattern used everywhere else.
 
 ---
 
@@ -318,12 +335,16 @@ Create another component `<IntroSection />` for the hero block, and move the con
 
 ## Issue 13 — Dead `onReplay` prop in BottomRail
 
-**File:** `common/BottomRail.tsx`, `app/page.tsx`
+**File:** `common/BottomRail.tsx`
 **Severity:** Medium
 
 ### Problem
 
-`BottomRail` accepts an `onReplay` prop and conditionally renders a replay button when it is passed. However, `page.tsx` renders `<BottomRail />` with no props — the replay button never appears in any page. The prop and its conditional render branch are dead code.
+`BottomRail` accepted an `onReplay` prop and conditionally rendered a replay button when it was passed. However, `page.tsx` rendered `<BottomRail />` with no props — the replay button never appeared on any page. The prop and its conditional render branch were dead code.
+
+### How it was fixed
+
+Removed the `BottomRailProps` interface, the `onReplay` parameter, and the conditional replay button block. Added an empty placeholder `<div />` in the right grid column so the `grid-cols-[auto_1fr_auto]` cassette/ticker/layout structure stays intact.
 
 ---
 
@@ -384,7 +405,18 @@ const spanClass: Record<string, string> = {
 
 ### Problem
 
-The carousel prev/next controls use hand-rolled `<button>` elements with manual `onClick={() => api?.scrollPrev()}` calls. The shadcn `carousel` component ships `CarouselPrevious` and `CarouselNext` sub-components specifically for this purpose, with built-in disabled state, accessibility attributes, and consistent styling. Using raw buttons bypasses these and drifts from the design system.
+The carousel prev/next controls used hand-rolled `<button>` elements with manual `onClick={() => api?.scrollPrev()}` calls. The shadcn `carousel` component ships `CarouselPrevious` and `CarouselNext` sub-components specifically for this purpose, with built-in disabled state, accessibility attributes, and consistent styling. Using raw buttons bypassed these and drifted from the design system.
+
+### How it was fixed
+
+Imported `CarouselPrevious` and `CarouselNext` from `@/components/ui/carousel`, removed the local `api`/`canPrev`/`canNext` state and the `ChevronLeft`/`ChevronRight` imports, and moved the controls inside the `<Carousel>` tree so they receive the carousel context. Each control was given `className` overrides to reset the default absolute side positioning and keep them as right-aligned square buttons:
+
+```tsx
+<div className="flex items-center justify-end gap-2 mt-6">
+  <CarouselPrevious className="relative top-auto left-auto right-auto translate-x-0 translate-y-0 size-11 rounded-none ..." />
+  <CarouselNext className="relative top-auto left-auto right-auto translate-x-0 translate-y-0 size-11 rounded-none ..." />
+</div>
+```
 
 ---
 
@@ -408,6 +440,19 @@ Issue #6 fixed index-based React keys in `BottomRail`, `LogoMarquee`, and `HeroS
 
 Because the array is doubled for the seamless loop, two cards share the same index within each pass (e.g. index 0 appears twice). The row prefix prevents cross-row collisions but not within-row ones.
 
+### How it was fixed
+
+`GalleryCard` already receives a stable `id` field. The map keys now combine `id` with the loop pass index so every instance is unique:
+
+```tsx
+{[...ROW1, ...ROW1].map((m, i) => (
+  <GalleryCard key={`${m.id}-r1-${i}`} {...m} />
+))}
+{[...row2, ...row2].map((m, i) => (
+  <GalleryCard key={`${m.id}-r2-${i}`} {...m} />
+))}
+```
+
 ---
 
 ## Issue 18 — Raw `<a>` tag in ProcessSection CTA strip
@@ -417,7 +462,22 @@ Because the array is doubled for the seamless loop, two cards share the same ind
 
 ### Problem
 
-The CTA strip at the bottom of `ProcessSection` uses a raw `<a>` element with manually duplicated pill styles. Every other CTA across the codebase uses the shared `CtaButton` component, which encapsulates the lofi pill style, hover states, and the `asChild` + `href` pattern. This one-off `<a>` duplicates those styles and drifts from the design system.
+The CTA strip at the bottom of `ProcessSection` used a raw `<a>` element with manually duplicated pill styles. Every other CTA across the codebase uses the shared `CtaButton` component, which encapsulates the lofi pill style, hover states, and the `asChild` + `href` pattern. This one-off `<a>` duplicated those styles and drifted from the design system.
+
+### How it was fixed
+
+Replaced the raw `<a>` with `CtaButton`, overriding the default dark lofi palette for the cream section:
+
+```tsx
+<CtaButton
+  variant="primary"
+  href={processCta.buttonHref}
+  className="border-[var(--cream-accent)] bg-[var(--cream-accent)] text-white hover:bg-[var(--cream-accent)]/80 hover:border-[var(--cream-accent)]/80 shrink-0"
+>
+  {processCta.buttonLabel}
+  <span className="text-base leading-none transition-transform duration-200 group-hover:translate-x-0.5">→</span>
+</CtaButton>
+```
 
 ---
 
@@ -450,7 +510,24 @@ The `[ 04 — Clients ]` SectionTag and SectionHeading are sticky at the top of 
 
 ### Problem
 
-The CTA buttons in the HeroSection footer (`▶ play intro` and `Book a Consultation`) use a basic pill style with minimal visual distinction. They lack a polished, characterful look that matches the lofi aesthetic of the rest of the section — the buttons should feel intentional and visually interesting, not generic.
+The CTA buttons in the HeroSection footer (`▶ play intro` and `Book a Consultation`) used a basic pill style with minimal visual distinction. They lacked a polished, characterful look that matched the lofi aesthetic of the rest of the section.
+
+### How it was fixed
+
+Polished the shared `CtaButton` component:
+
+- Added `group`, `relative`, and `overflow-hidden` to the base class.
+- Added a subtle lift on hover (`hover:-translate-y-px`).
+- Added a diagonal shine overlay on the primary variant that sweeps across on hover.
+- Added an inset shadow transition on the ghost variant for a crisper filled hover.
+
+In `HeroSection`, the primary CTA arrow now animates with the button's `group-hover`:
+
+```tsx
+<CtaButton variant="primary" href="#">
+  Book a Consultation <span className="transition-transform duration-[220ms] group-hover:translate-x-1">→</span>
+</CtaButton>
+```
 
 ---
 
@@ -488,11 +565,3 @@ The Navbar coordinate block shows only a static lat/long. It should instead be a
 `1.3521° N / 103.8198° E → Singapore → 1.3521° N / 103.8198° E → Singapore → 1.3521° N / 103.8198° E → Singapore → …`
 
 Each step flips/slides to the next value on a timed interval. Currently only the static coordinates are rendered — the alternating carousel is missing entirely.
-
-## Issue -24 - ClientsSection sticky header leaves gaps while scrolling
-
-The `[ 04 — Clients ]` SectionTag and SectionHeading are sticky at the top of the section. While the user scrolls down through Section 2 (Logo Marquee), Section 3 (Brand Cards), and Section 4 (TestimonialCard), unwanted empty space appears between the sticky header and the content below it. Sections 2, 3, and 4 should flow directly and continuously beneath the sticky header with no gaps — each section visible immediately below the previous one as the user scrolls.
-
-### How it was fixed
-
-I refactored the top position from value `top-[148px]` to `top-32`, which is the height of the SectionTag plus some margin. This ensures that the sticky header remains directly above the content as the user scrolls, without leaving any gaps.
